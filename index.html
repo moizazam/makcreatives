@@ -23,7 +23,7 @@
     </div>
 
     <!-- Floating Premium CTA -->
-    <a href="https://wa.me/yournumber" class="floating-cta magnetic" target="_blank">
+    <div class="floating-cta magnetic" id="openChatbot">
         <div class="cta-pill">
             <span class="cta-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
@@ -31,7 +31,36 @@
             <span class="cta-text">Let's Chat</span>
         </div>
         <div class="cta-ripple"></div>
-    </a>
+    </div>
+
+    <!-- Chatbot Popup Window -->
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">
+                    <img src="assets/MAK LOGO WHITE.webp" alt="MAK" onerror="this.src='assets/web-logo.webp'">
+                    <div class="online-indicator"></div>
+                </div>
+                <div>
+                    <h4>MAK Assistant</h4>
+                    <span>Online | Ready to help</span>
+                </div>
+            </div>
+            <button class="close-chat" id="closeChatbot">✕</button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot-message">
+                <p>Hi there! 👋 I'm MAK's virtual assistant. How can I help you today?</p>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your message here...">
+            <button id="sendMessage" class="send-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
+    </div>
+
 
     <!-- Navigation Header -->
     <header class="main-header">

@@ -223,4 +223,107 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 11. Custom Chatbot Popup Logic
+    const openChatbotBtn = document.getElementById('openChatbot');
+    const closeChatbotBtn = document.getElementById('closeChatbot');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatBody = document.getElementById('chatBody');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessageBtn = document.getElementById('sendMessage');
+
+    // Toggle Chat Window
+    if(openChatbotBtn && chatbotWindow && closeChatbotBtn) {
+        openChatbotBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            chatbotWindow.classList.add('active');
+            chatInput.focus();
+        });
+
+        closeChatbotBtn.addEventListener('click', () => {
+            chatbotWindow.classList.remove('active');
+        });
+    }
+
+    // Bot Responses Logic
+    let botTyping = false;
+
+    const generateBotResponse = (userText) => {
+        const lowerText = userText.toLowerCase();
+        let response = "I'm MAK's virtual assistant. I can help answer questions about our services, pricing, projects, and contact info. How can I help you today?";
+        
+        if(lowerText.includes('hi') || lowerText.includes('hello') || lowerText.includes('hey')) {
+            response = "Hello! 👋 Ready to elevate your brand today?";
+        } else if ((lowerText.includes('what') && lowerText.includes('do')) || lowerText.includes('who are you')) {
+            response = "MAK Creatives is a digital agency that helps businesses grow online through professional design, branding, websites, and marketing strategies. We focus on creating visuals and systems that attract customers and build strong brand identity.";
+        } else if (lowerText.includes('service') || lowerText.includes('offer')) {
+            response = "We offer complete digital solutions including:<br>✔ Website Design & Development<br>✔ Branding & Logo Design<br>✔ Social Media Marketing<br>✔ SEO (Search Engine Optimization)<br>✔ Graphic Design & Video Editing<br>✔ 2D/3D Modeling<br>✔ Google Business Profile optimization";
+        } else if (lowerText.includes('international') || lowerText.includes('worldwide') || lowerText.includes('remote') || lowerText.includes('countries')) {
+            response = "Yes, MAK Creatives works with clients worldwide including Qatar, UAE, Pakistan, Oman, and Europe. We handle remote projects smoothly with clear communication and timely delivery.";
+        } else if (lowerText.includes('contact') || lowerText.includes('email') || lowerText.includes('phone') || lowerText.includes('number')) {
+             response = "You can contact us via:<br>📞 +974 5131 8205<br>📩 letstalk@makcreatives.com<br><br>📍 Doha, Qatar";
+        } else if (lowerText.includes('price') || lowerText.includes('cost') || lowerText.includes('much') || lowerText.includes('quote')) {
+            response = "Our pricing depends on the project type and requirements. We offer flexible packages for startups, small businesses, and enterprises. You can contact us for a free quote based on your needs.";
+        } else if (lowerText.includes('website') || lowerText.includes('web design')) {
+            response = "Yes, we specialize in modern, responsive, and user-friendly websites. Our websites are designed to attract visitors, improve user experience, and generate leads for your business.";
+        } else if (lowerText.includes('improve') || lowerText.includes('presence') || lowerText.includes('online')) {
+            response = "Yes, we help businesses grow online through branding, social media management, SEO, and Google Business Profile optimization to increase visibility and customer trust.";
+        } else if (lowerText.includes('how long') || lowerText.includes('duration') || lowerText.includes('time') || lowerText.includes('take')) {
+            response = "Project duration depends on complexity. Simple designs may take a few days, while full websites or branding projects can take 1–3 weeks. We always ensure quality and timely delivery.";
+        } else if (lowerText.includes('why choose') || lowerText.includes('why mak') || lowerText.includes('hire you')) {
+            response = "Because we don’t just design — we create strategy-driven visuals that help your business grow, attract customers, and build trust. Our focus is on results, not just design.";
+        }
+
+        return response;
+    };
+
+    const addMessage = (text, sender) => {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${sender}-message`;
+        msgDiv.innerHTML = text; // allow HTML anchors
+        chatBody.appendChild(msgDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+    const showTypingIndicator = () => {
+        const indicator = document.createElement('div');
+        indicator.className = 'typing-indicator';
+        indicator.id = 'typingIndicator';
+        indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        chatBody.appendChild(indicator);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+    const handleSendMessage = () => {
+        const text = chatInput.value.trim();
+        if(!text || botTyping) return;
+
+        // User Message
+        addMessage(text, 'user');
+        chatInput.value = '';
+        botTyping = true;
+
+        // Simulate Bot Typing Delay
+        setTimeout(() => {
+            showTypingIndicator();
+            
+            // Simulate Variable Response Delay
+            setTimeout(() => {
+                const indicator = document.getElementById('typingIndicator');
+                if(indicator) indicator.remove();
+                
+                const response = generateBotResponse(text);
+                addMessage(response, 'bot');
+                botTyping = false;
+            }, 1000 + (Math.random() * 800));
+
+        }, 400);
+    };
+
+    if(sendMessageBtn && chatInput) {
+        sendMessageBtn.addEventListener('click', handleSendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') handleSendMessage();
+        });
+    }
+
 });
